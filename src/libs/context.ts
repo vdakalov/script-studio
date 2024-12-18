@@ -4,9 +4,9 @@ import ProjectsModel from '../nodes/projects/model';
 import { cid } from './model';
 import ProjectsView from '../nodes/projects/view';
 import ContextMenuUi from '../ui/context-menu';
-import AlertModalWindow from '../ui/modal-window/impls/alert';
-import PromptModalWindow from '../ui/modal-window/impls/prompt';
-import ConfirmModalWindow from '../ui/modal-window/impls/confirm';
+import AlertModalWindow from './modal-windows/alert';
+import PromptModalWindow from './modal-windows/prompt';
+import ConfirmModalWindow from './modal-windows/confirm';
 
 export default class Context {
   public readonly alert: AlertModalWindow = new AlertModalWindow();

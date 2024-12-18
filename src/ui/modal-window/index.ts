@@ -31,24 +31,35 @@ export default abstract class ModalWindow extends UiNode<HTMLDivElement> {
 
   private onKeydown(event: KeyboardEvent): void {
     switch (event.key) {
-      case 'Enter':
+      case 'Enter': {
         const control = this.controls.uiNodeChildren
-          .find(child => child instanceof ModalWindowControl && child.default) as ModalWindowControl;
+          .find(child => child instanceof ModalWindowControl && child.defaultOnKey === 'Enter') as ModalWindowControl;
         if (control) {
           control.button.uiNodeElement.click();
         }
         break;
-      case 'Escape':
-        this.hide();
+      }
+      case 'Escape': {
+        const control = this.controls.uiNodeChildren
+          .find(child => child instanceof ModalWindowControl && child.defaultOnKey === 'Escape') as ModalWindowControl;
+        if (control) {
+          control.button.uiNodeElement.click();
+        } else {
+          this.hide();
+        }
         break;
+      }
     }
   }
+
+  protected onShowed(): void {}
 
   protected onHidden(): void {}
 
   protected show(): void {
     window.document.body.appendChild(this.uiNodeElement);
     this.uiNodeElement.focus();
+    this.onShowed();
   }
 
   protected hide(): void {

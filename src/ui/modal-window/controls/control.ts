@@ -3,16 +3,21 @@ import ButtonUiNode from '../../html/button';
 
 export type Handler = (event: HTMLElementEventMap['click']) => void;
 
+export enum Key {
+  Enter = 'Enter',
+  Escape = 'Escape'
+}
+
 export default class ModalWindowControl extends UiNode<HTMLLIElement> {
 
-  public readonly default: boolean;
+  public readonly defaultOnKey?: Key;
 
   public readonly button: ButtonUiNode;
 
-  constructor(text: string, handler?: Handler, _default: boolean = false) {
+  constructor(text: string, handler?: Handler, defaultOnKey?: Key) {
     super('li');
+    this.defaultOnKey = defaultOnKey;
     this.button = new ButtonUiNode(text, handler)
       .uiNodeAppendTo(this);
-    this.default = _default;
   }
 }
