@@ -39,7 +39,7 @@ export default class PropertiesModalWindow extends ModalWindow {
   }
 
   public open(fields: Fields, callback: (fields?: Fields) => void): void {
-    this.title = fields.name;
+    this.title = `Project ${fields.name}`;
     this.fieldId.value = fields.id;
     this.fieldName.value = fields.name;
 
@@ -57,7 +57,7 @@ export default class PropertiesModalWindow extends ModalWindow {
         this.hide();
         callback();
       })
-    ])
+    ]);
 
     this.show();
   }
