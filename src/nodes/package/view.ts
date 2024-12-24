@@ -4,11 +4,46 @@ import ModuleView from '../module/view';
 import ModuleModel, { create } from '../module/model';
 import Context from '../../libs/context';
 import { MenuItem } from '../../libs/context-menu';
-import PropertiesModalWindow from './properties';
+import ContentModalWindow from '../../libs/modal-windows/content';
+import PropertiesUiNode from '../../ui/properties';
+import StringPropertyUiNode from '../../ui/properties/properties/string';
+import TextPropertyUiNode from '../../ui/properties/properties/text';
+import TabsUiNode from '../../ui/tabs';
+import StaticPropertyUiNode from '../../ui/properties/properties/static';
+import SemverPropertyUiNode from '../../ui/properties/properties/semver';
 
 export default class PackageView extends CollapsableTreeNode {
 
-  private readonly propertiesModalWindow: PropertiesModalWindow = new PropertiesModalWindow();
+  private readonly generalProperties: PropertiesUiNode = new PropertiesUiNode();
+
+  private readonly generalPropertyId: StaticPropertyUiNode = new StaticPropertyUiNode('Id', '')
+    .addTo(this.generalProperties);
+
+  private readonly generalPropertyModules: StaticPropertyUiNode = new StaticPropertyUiNode('Modules', '0')
+    .addTo(this.generalProperties);
+
+  private readonly packageProperties: PropertiesUiNode = new PropertiesUiNode();
+
+  private readonly packagePropertyName: StringPropertyUiNode = new StringPropertyUiNode('Name', '')
+    .addTo(this.packageProperties);
+
+  private readonly packagePropertyVersion: SemverPropertyUiNode = new SemverPropertyUiNode('Version', '')
+    .addTo(this.packageProperties);
+
+  private readonly packagePropertyDescription: TextPropertyUiNode = new TextPropertyUiNode('Description', '')
+    .addTo(this.packageProperties);
+
+  private readonly packagePropertyMain: StringPropertyUiNode = new StringPropertyUiNode('Main', '')
+    .addTo(this.packageProperties);
+
+  private readonly tabs: TabsUiNode = new TabsUiNode()
+    .add('General', this.generalProperties)
+    .add('Package', this.packageProperties);
+
+  private readonly propertiesModalWindow: ContentModalWindow = new ContentModalWindow()
+    .setContent(this.tabs)
+    .addControl('Ok', this.onApplyProperties.bind(this))
+    .addControl('Cancel', () => this.propertiesModalWindow.close());
 
   private readonly packageModel: PackageModel;
 
@@ -30,14 +65,18 @@ export default class PackageView extends CollapsableTreeNode {
     this.packageModel = packageModel;
     this.context = context;
 
-    this.label.text = `${packageModel.data.name} (${packageModel.data.version})`;
-
     context.contextMenu
       .register(() => this.menu, [this.label.uiNodeElement]);
+
+    this.update();
 
     for (const moduleModel of packageModel.modules) {
       this.addModule(moduleModel);
     }
+  }
+
+  private update(): void {
+    this.label.text = `${this.packageModel.data.name} (${this.packageModel.data.version})`;
   }
 
   private addModule(moduleModel: ModuleModel): void {
@@ -54,16 +93,35 @@ export default class PackageView extends CollapsableTreeNode {
     });
   }
 
+  private onApplyProperties(): void {
+    if (this.packagePropertyName.changed) {
+      this.packageModel.data.name = this.packagePropertyName.current;
+    }
+    if (this.packagePropertyVersion.changed) {
+      this.packageModel.data.version = this.packagePropertyVersion.current;
+    }
+    if (this.packagePropertyDescription.changed) {
+      this.packageModel.data.description = this.packagePropertyDescription.current;
+    }
+    if (this.packagePropertyMain.changed) {
+      this.packageModel.data.main = this.packagePropertyMain.current;
+    }
+    this.update();
+    this.propertiesModalWindow.close();
+  }
+
   private onProperties(): void {
-    this.propertiesModalWindow.open({
-      id: this.packageModel.id,
-      name: this.packageModel.data.name,
-      version: this.packageModel.data.version
-    }, fields => {
-      if (fields !== undefined) {
-        this.packageModel.data.name = fields.name;
-        this.packageModel.data.version = fields.version;
-      }
-    });
+    this.propertiesModalWindow
+      .setTitle(`Package "${this.packageModel.data.name}"`);
+
+    this.generalPropertyId.current = this.packageModel.id;
+    this.generalPropertyModules.current = this.packageModel.modules.length.toString();
+
+    this.packagePropertyName.current = this.packageModel.data.name;
+    this.packagePropertyVersion.current = this.packageModel.data.version;
+    this.packagePropertyDescription.current = this.packageModel.data.description || '';
+    this.packagePropertyMain.current = './index.js';
+
+    this.propertiesModalWindow.open();
   }
 }

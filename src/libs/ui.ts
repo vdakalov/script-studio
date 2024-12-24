@@ -1,6 +1,8 @@
 
 export default class UiNode<T extends HTMLElement> {
 
+  public readonly uiNodeId: string = Math.random().toString(36);
+
   public readonly uiNodeElement: T;
 
   public get uiNodeChildren(): Readonly<UiNode<HTMLElement>[]> {
@@ -37,6 +39,19 @@ export default class UiNode<T extends HTMLElement> {
     return this.uiNodeElement.appendChild(window.document.createElement(tagName));
   }
 
+  public uiNodeInit(initializer: (element: T) => void): this {
+    initializer(this.uiNodeElement);
+    return this;
+  }
+
+  public uiNodeClass(tokens: string[], reset: boolean = false): this {
+    if (reset) {
+      this.uiNodeElement.classList.remove(...this.uiNodeElement.classList.values());
+    }
+    this.uiNodeElement.classList.add(...tokens);
+    return this;
+  }
+
   public uiNodeAppend<T extends UiNode<HTMLElement>>(node: T, before?: UiNode<HTMLElement> | number): T {
     if (typeof before === 'number' && this.uiNodeElement.children.length > before) {
       this.uiNodeElement.insertBefore(node.uiNodeElement, this.uiNodeElement.children.item(before));
@@ -71,21 +86,19 @@ export default class UiNode<T extends HTMLElement> {
   }
 
   public uiNodeRemove(child?: UiNode<HTMLElement>): void {
-    if (child === undefined && this.uiNodeElement.parentElement !== null) {
-      this.uiNodeElement.parentElement
-        .removeChild(this.uiNodeElement);
-    }
-    if (child !== undefined) {
-      const index = Array
-        .from(this.uiNodeElement.children)
-        .indexOf(child.uiNodeElement);
-      if (index !== -1) {
-        const node = this.uiNodeElement.children.item(index);
-        if (node !== null) {
-          this.uiNodeElement.removeChild(node);
+    if (child === undefined) {
+      if (this.uiNodeParent !== undefined && this.uiNodeElement.parentElement !== null) {
+        const index = this.uiNodeParent.uiNodeChildren.indexOf(this);
+        if (index !== -1) {
+          this.uiNodeParent._uiNodeChildren.splice(index, 1);
+          this._uiNodeParent = undefined;
+          this.uiNodeElement.parentElement
+            .removeChild(this.uiNodeElement);
         }
       }
+      return;
     }
+    child.uiNodeRemove();
   }
 
   public uiNodeRemoveAll(): void {

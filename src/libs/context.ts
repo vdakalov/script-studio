@@ -22,7 +22,7 @@ export default class Context {
       id: cid(),
       data: {
         name: 'gears-package',
-        version: '0.0.1',
+        version: '0.0.1-rc1',
         description: 'Test package',
         main: './index.js'
       },

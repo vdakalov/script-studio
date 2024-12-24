@@ -16,14 +16,4 @@ export default class TextInputUiNode extends InputUiNode {
       this.value = initial;
     }
   }
-
-  public focus(options?: FocusOptions | undefined): this {
-    this.uiNodeElement.focus(options);
-    return this;
-  }
-
-  public select(): this {
-    this.uiNodeElement.select();
-    return this;
-  }
 }

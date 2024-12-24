@@ -35,9 +35,8 @@ export default class PromptModalWindow extends ModalWindow {
   }
 
   protected onShowed() {
-    this.inputUiNode
-      .focus()
-      .select();
+    this.inputUiNode.uiNodeElement.focus();
+    this.inputUiNode.uiNodeElement.select();
   }
 
   public open(title: string, message: string, _default: string, callback: Callback): void {
