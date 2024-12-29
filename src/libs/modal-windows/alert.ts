@@ -1,5 +1,5 @@
-import ModalWindow from '../../ui/modal-window';
-import ModalWindowControl, { Key } from '../../ui/modal-window/controls/control';
+import ModalWindow from '../../ui/custom/modal-window';
+import ModalWindowControl, { Key } from '../../ui/custom/modal-window/controls/control';
 import ParagraphUiNode from '../../ui/html/paragraph';
 
 export type Callback = () => void;

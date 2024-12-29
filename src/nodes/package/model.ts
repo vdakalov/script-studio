@@ -1,4 +1,5 @@
 import ModuleModel from '../module/model';
+import { Model as ClassModel } from '../class/model';
 import { cid } from '../../libs/model';
 
 type PackageData = {
@@ -12,6 +13,7 @@ type PackageModel = {
   id: string;
   data: PackageData;
   modules: ModuleModel[];
+  classes: ClassModel[];
 };
 
 export default PackageModel;
@@ -24,6 +26,7 @@ export function create(name: string): PackageModel {
       version: '0.0.1',
       description: ''
     },
-    modules: []
+    modules: [],
+    classes: []
   };
 }

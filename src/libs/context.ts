@@ -1,33 +1,34 @@
 import ContextMenu from './context-menu';
-import TreeNodes from '../ui/tree/nodes';
-import ProjectsModel from '../nodes/projects/model';
-import { cid } from './model';
-import ProjectsView from '../nodes/projects/view';
-import ContextMenuUi from '../ui/context-menu';
+import ContextMenuUi from '../ui/custom/context-menu';
 import AlertModalWindow from './modal-windows/alert';
 import PromptModalWindow from './modal-windows/prompt';
 import ConfirmModalWindow from './modal-windows/confirm';
+import ApplicationTypeController from '../types/application/controller';
+import ApplicationUiNode from '../ui/types/application';
 
 export default class Context {
-  public readonly alert: AlertModalWindow = new AlertModalWindow();
-  public readonly confirm: ConfirmModalWindow = new ConfirmModalWindow();
-  public readonly prompt: PromptModalWindow = new PromptModalWindow();
-  public readonly contextMenu: ContextMenu = new ContextMenu(new ContextMenuUi());
-  public readonly rootView: TreeNodes = new TreeNodes();
-  public readonly projectsModel: ProjectsModel = [{
-    id: cid(),
-    name: 'My Project',
-    description: 'My first project',
-    packages: [{
-      id: cid(),
-      data: {
-        name: 'gears-package',
-        version: '0.0.1-rc1',
-        description: 'Test package',
-        main: './index.js'
-      },
-      modules: []
-    }]
-  }];
-  public readonly projectsView: ProjectsView = new ProjectsView(this.projectsModel, this);
+  public alert: AlertModalWindow = new AlertModalWindow();
+  public confirm: ConfirmModalWindow = new ConfirmModalWindow();
+  public prompt: PromptModalWindow = new PromptModalWindow();
+  public contextMenu: ContextMenu = new ContextMenu(new ContextMenuUi());
+  public type: ApplicationTypeController = new ApplicationTypeController();
+  public ui: ApplicationUiNode = new ApplicationUiNode(this.type, this);
+
+  // public readonly rootView: TreeNodes = new TreeNodes();
+  // public readonly projectsModel: ProjectsModel = [{
+  //   id: cid(),
+  //   name: 'My Project',
+  //   description: 'My first project',
+  //   packages: [{
+  //     id: cid(),
+  //     data: {
+  //       name: 'gears-package',
+  //       version: '0.0.1-rc1',
+  //       description: 'Test package',
+  //       main: './index.js'
+  //     },
+  //     modules: []
+  //   }]
+  // }];
+  // public readonly projectsView: ApplicationView = new ApplicationView(this.projectsModel, this);
 }

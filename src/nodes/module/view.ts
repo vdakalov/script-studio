@@ -1,4 +1,4 @@
-import CollapsableTreeNode from '../../ui/tree/nodes/collapsable';
+import CollapsableTreeNode from '../../ui/custom/tree/nodes/collapsable';
 import ModuleModel from './model';
 
 export default class ModuleView extends CollapsableTreeNode {

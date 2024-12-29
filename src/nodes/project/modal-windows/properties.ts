@@ -1,9 +1,9 @@
-import ModalWindow from '../../../ui/modal-window';
+import ModalWindow from '../../../ui/custom/modal-window';
 import FormUiNode from '../../../ui/html/form';
 import FieldsetUiNode from '../../../ui/html/fieldset';
 import LegendUiNode from '../../../ui/html/legend';
-import ModalWindowControl from '../../../ui/modal-window/controls/control';
-import ControlUiNode from '../../../ui/control';
+import ModalWindowControl from '../../../ui/custom/modal-window/controls/control';
+import ControlUiNode from '../../../ui/custom/control';
 import TextInputUiNode from '../../../ui/html/input/text';
 import TextAreaUiNode from '../../../ui/html/textarea';
 

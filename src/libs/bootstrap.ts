@@ -1,3 +1,3 @@
 import Application from '../index';
 
-const application = new Application(window.document.body);
+(window as any).application = new Application(window.document.body);

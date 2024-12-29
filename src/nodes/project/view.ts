@@ -1,6 +1,6 @@
-import CollapsableTreeNode from '../../ui/tree/nodes/collapsable';
+import CollapsableTreeNode from '../../ui/custom/tree/nodes/collapsable';
 import ProjectModel from './model';
-import PackageView from '../package/view';
+import PackageTreeNode from '../package/ui/tree-node';
 import Context from '../../libs/context';
 import { MenuItem } from '../../libs/context-menu';
 import PackageModel, { create as createPackageModel } from '../package/model';
@@ -48,7 +48,7 @@ export default class ProjectView extends CollapsableTreeNode {
   }
 
   private addPackage(packageModel: PackageModel): void {
-    this.children.uiNodeAppend(new PackageView(packageModel, this.context));
+    this.collapsableTreeNodeChildren.uiNodeAppend(new PackageTreeNode(packageModel, this.context));
   }
 
   private setName(name: string): void {
