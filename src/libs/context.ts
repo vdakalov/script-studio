@@ -4,7 +4,7 @@ import AlertModalWindow from './modal-windows/alert';
 import PromptModalWindow from './modal-windows/prompt';
 import ConfirmModalWindow from './modal-windows/confirm';
 import ApplicationTypeController from '../types/application/controller';
-import ApplicationUiNode from '../ui/types/application';
+import ApplicationTypeUiNode from '../ui/custom/application';
 
 export default class Context {
   public alert: AlertModalWindow = new AlertModalWindow();
@@ -12,7 +12,7 @@ export default class Context {
   public prompt: PromptModalWindow = new PromptModalWindow();
   public contextMenu: ContextMenu = new ContextMenu(new ContextMenuUi());
   public type: ApplicationTypeController = new ApplicationTypeController();
-  public ui: ApplicationUiNode = new ApplicationUiNode(this.type, this);
+  public ui: ApplicationTypeUiNode = new ApplicationTypeUiNode(this.type, this);
 
   // public readonly rootView: TreeNodes = new TreeNodes();
   // public readonly projectsModel: ProjectsModel = [{

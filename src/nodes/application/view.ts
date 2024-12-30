@@ -1,7 +1,6 @@
 import Context from '../../libs/context';
 import ApplicationTypeController from '../../types/application/controller';
 import ProjectTypeController from '../../types/project/controller';
-import ProjectModel, { create as createProjectModel } from '../project/model';
 import ProjectView from '../project/view';
 import CollapsableTreeNode from '../../ui/custom/tree/nodes/collapsable';
 import { MenuItem } from '../../libs/context-menu';
@@ -40,17 +39,17 @@ export default class ApplicationView extends CollapsableTreeNode {
       if (name === undefined || name.length === 0) {
         return undefined;
       }
-      const projectModel = createProjectModel(name);
-      this.add(projectModel);
+      // const projectModel = createProjectModel(name);
+      // this.add(projectModel);
     });
   }
 
   public add(projectCtrl: ProjectTypeController): void {
-    this.collapsableTreeNodeChildren.uiNodeAppend(new ProjectView(projectModel, this.context));
+    // this.collapsableTreeNodeChildren.uiNodeAppend(new ProjectView(projectModel, this.context));
   }
 
-  public remove(projectModel: ProjectModel): void {
+  // public remove(projectModel: ProjectModel): void {
     // todo how children may delete themselves?
-    const index = this.uiNodeChildren;
-  }
+    // const index = this.uiNodeChildren;
+  // }
 }

@@ -7,7 +7,7 @@ export default abstract class TreeNode extends UiNode<HTMLLIElement> {
   public readonly toolbar: Toolbar = new Toolbar()
     .uiNodeAppendTo(this);
 
-  public readonly label: TextToolbarItem = new TextToolbarItem('')
+  public readonly label: TextToolbarItem = new TextToolbarItem(this.constructor.name)
     .uiNodeAppendTo(this.toolbar);
 
   constructor() {

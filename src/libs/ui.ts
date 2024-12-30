@@ -2,8 +2,6 @@ import Context from "./context";
 
 export default class UiNode<T extends HTMLElement> {
 
-  public readonly context: Context;
-
   public readonly uiNodeId: string = Math.random().toString(36);
 
   public readonly uiNodeElement: T;
@@ -20,8 +18,7 @@ export default class UiNode<T extends HTMLElement> {
 
   private _uiNodeParent: UiNode<HTMLElement> | undefined = undefined;
 
-  constructor(context: Context, tagName: keyof HTMLElementTagNameMap) {
-
+  constructor(tagName: keyof HTMLElementTagNameMap) {
     this.uiNodeElement = window.document.createElement(tagName) as T;
     this.uiNodeElement.className = this
       .uiNodeGetAscendantsPrototypes()
