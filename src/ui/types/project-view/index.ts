@@ -1,14 +1,18 @@
 import DivUiNode from '../../html/div';
 import Context from '../../../libs/context';
 import ProjectViewTreeUiNode from './tree/nodes/application';
+import ApplicationTypeController from '../../../types/application/controller';
 
 export default class ProjectViewUiNode extends DivUiNode {
 
-  private readonly root: ProjectViewTreeUiNode;
+  private readonly type: ApplicationTypeController;
 
-  constructor(context: Context) {
+  private readonly tree: ProjectViewTreeUiNode;
+
+  constructor(type: ApplicationTypeController, context: Context) {
     super();
-    this.root = new ProjectViewTreeUiNode(context)
+    this.type = type;
+    this.tree = new ProjectViewTreeUiNode(type, context)
       .uiNodeAppendTo(this);
   }
 }

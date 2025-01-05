@@ -2,9 +2,11 @@ import CollapsableTreeNode from '../../../../custom/tree/nodes/collapsable';
 import Context from '../../../../../libs/context';
 import PackageTypeController from '../../../../../types/package/controller';
 import ProjectTypeController from '../../../../../types/project/controller';
-import PackageTreeNode from '../../../../../nodes/package/ui/tree-node';
+import PackageTreeUiNode from './package';
 
 export default class ProjectTreeNodeUiNode extends CollapsableTreeNode {
+
+  public readonly packages: PackageTreeUiNode[] = [];
 
   private readonly context: Context;
 
@@ -16,7 +18,9 @@ export default class ProjectTreeNodeUiNode extends CollapsableTreeNode {
     }
   }
 
-  private createPackage(packageType: PackageTypeController): void {
-    const packgeUiNode = new PackageTreeNode()
+  private createPackage(type: PackageTypeController): void {
+    const package_ = new PackageTreeUiNode(type, this.context)
+      .uiNodeAppendTo(this.collapsableTreeNodeChildren);
+    this.packages.push(package_);
   }
 }

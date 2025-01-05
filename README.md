@@ -35,4 +35,4 @@ __src/ui/custom__ custom ui-nodes, that implements behaviour other than html ele
 
 __src/ui/html__ ui-nodes, that reproduces html elements behaviour
 
-__src/ui/types__ ui-nodes
+__src/ui/types__ ui-nodes reproduces type's views (more special than src/ui/custom, for types only)

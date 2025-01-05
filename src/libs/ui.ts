@@ -1,4 +1,3 @@
-import Context from "./context";
 
 export default class UiNode<T extends HTMLElement> {
 
