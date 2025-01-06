@@ -1,12 +1,16 @@
 import CollapsableTreeNode from '../../../../custom/tree/nodes/collapsable';
 import PackageTypeController from '../../../../../types/package/controller';
 import Context from '../../../../../libs/context';
-import ClassTypeController from '../../../../../types/class/controller';
-import ClassUiNode from './class';
+import ClassTreeNodeUiNode from './class';
 
 export default class PackageTreeUiNode extends CollapsableTreeNode {
 
-  public readonly classes: ClassUiNode[] = [];
+  public static create(context: Context, name: string, version?: string, description: string = ''): PackageTreeUiNode {
+    const type = PackageTypeController.create(name, version, description);
+    return new this(type, context);
+  }
+
+  public readonly classes: ClassTreeNodeUiNode[] = [];
 
   private readonly type: PackageTypeController;
 
@@ -18,13 +22,9 @@ export default class PackageTreeUiNode extends CollapsableTreeNode {
     this.context = context;
 
     for (const classType of type.classes) {
-      this.createClass(classType);
+      const class_ = new ClassTreeNodeUiNode(classType)
+        .uiNodeAppendTo(this.collapsableTreeNodeChildren);
+      this.classes.push(class_);
     }
-  }
-
-  public createClass(type: ClassTypeController): void {
-    const class_ = new ClassUiNode(type)
-      .uiNodeAppendTo(this.collapsableTreeNodeChildren);
-    this.classes.push(class_);
   }
 }

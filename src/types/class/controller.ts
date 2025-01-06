@@ -1,3 +1,4 @@
+import { createTypeId } from '../../libs/type';
 import TypeController from '../../libs/type/controller';
 import { Type as ClassType } from '.';
 import { Type as PropertyType } from './property';
@@ -7,6 +8,14 @@ import PropertyTypeController from './property/controller';
 import MethodTypeController from './method/controller';
 
 export default class ClassTypeController extends TypeController<ClassType> {
+
+  public static create(name: string): ClassTypeController {
+    return new this({
+      tid: createTypeId(),
+      name,
+      constructor: undefined
+    });
+  }
 
   public constructor_: ConstructorTypeController | undefined  = undefined;
 
